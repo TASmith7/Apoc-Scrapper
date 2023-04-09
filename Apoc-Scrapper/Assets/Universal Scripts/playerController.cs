@@ -10,13 +10,20 @@ public class playerController : MonoBehaviour, IDamage
     [Header("----- Player Stats -----")]
     [Range(1, 10)][SerializeField] int HP;
     [Range(3, 8)] [SerializeField] float playerSpeed;
-    [Range(1, 8)] [SerializeField] float thrustPower;
     [Range(10, 50)] [SerializeField] float gravityValue;
+
+    [Header("----- Jetpack Stats -----")]
+    [Range(1, 8)][SerializeField] float thrustPower;
+    [Range(0.001f, 0.05f)] [SerializeField] float fuelConsumptionRate;
+    [Range(0.0001f, 0.0003f)] [SerializeField] float fuelRefillRate;
+
 
     [Header("----- Gun Stats -----")]
     [Range(1, 10)] [SerializeField] int shootDamage;
     [Range(0.1f, 5)][SerializeField] float shootRate;
     [Range(1, 100)] [SerializeField] int shootDistance;
+
+    
 
     private Vector3 playerVelocity;
     private bool groundedPlayer;
@@ -24,13 +31,12 @@ public class playerController : MonoBehaviour, IDamage
     bool isShooting; 
     Vector3 move;
     int HPOriginal;
-    float thrustRemaining;
+    bool isThrusting;
 
     private void Start()
     {
         HPOriginal = HP;
         PlayerUIUpdate();
-        //thrustRemaining = gameManager.instance.jetpackFuel.fillAmount;
     }
 
     void Update()
@@ -66,13 +72,21 @@ public class playerController : MonoBehaviour, IDamage
 
         if (Input.GetButton("Jump"))
         {
-            // while player holds down space, give velocity in the y direction a value
-            playerVelocity.y = thrustPower;
-
-            // reducing the thrust fill while the player is pressing space
-            StartCoroutine(JetpackFuelUIUpdate());
+            // if we are not out of fuel
+            if (gameManager.instance.jetpackFuelBar.fillAmount > 0)
+            {
+                // while player holds down space, give velocity in the y direction a value
+                playerVelocity.y = thrustPower;
+            }
+            // reducing the fuel bar while the player is pressing space
+            StartCoroutine(ReduceJetpackFuelUI());
         }
-        
+
+        // refilling the fuel bar when the player is not pressing space until it's full
+        if (gameManager.instance.jetpackFuelBar.fillAmount < 1 && !isThrusting)
+        {
+            StartCoroutine(RefillJetpackFuelUI());
+        }
 
         // ensuring our players y velocity take gravity into effect
         playerVelocity.y -= gravityValue * Time.deltaTime;
@@ -123,13 +137,37 @@ public class playerController : MonoBehaviour, IDamage
 
     void PlayerUIUpdate()
     {
+        // updating the players health bar
         gameManager.instance.HPBar.fillAmount = (float) HP / (float) HPOriginal;
     }
 
-    IEnumerator JetpackFuelUIUpdate()
+    IEnumerator ReduceJetpackFuelUI()
+    {  
+        // this bool will be helpful for future development of thrusting capabilities. It currently has no effective use
+        isThrusting = true;
+
+        // stopping the refill coroutine while thrusting
+        StopCoroutine(RefillJetpackFuelUI());
+
+        // reducing the jetpack fuel bar
+        gameManager.instance.jetpackFuelBar.fillAmount -= fuelConsumptionRate;
+
+        yield return new WaitForSeconds(0.25f);
+
+        isThrusting = false;
+    }
+
+    IEnumerator RefillJetpackFuelUI()
     {
-        gameManager.instance.jetpackFuelBar.fillAmount -= (float) 0.1;
-        yield return new WaitForSeconds(0.01f);
+
+        yield return new WaitForSeconds(0.1f);
+
+        if (!isThrusting)
+        {
+            // refilling the jetpack fuel bar
+            gameManager.instance.jetpackFuelBar.fillAmount += fuelRefillRate;
+        }
+        
     }
 }
 
