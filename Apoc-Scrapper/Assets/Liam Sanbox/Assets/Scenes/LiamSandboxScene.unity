@@ -214,6 +214,14 @@ PrefabInstance:
       propertyPath: thrustPower
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 8662022866767433794, guid: 888e37a135e712d42841cd705bc904df, type: 3}
+      propertyPath: fuelRefillRate
+      value: 0.0002
+      objectReference: {fileID: 0}
+    - target: {fileID: 8662022866767433794, guid: 888e37a135e712d42841cd705bc904df, type: 3}
+      propertyPath: fuelConsumptionRate
+      value: 0.001
+      objectReference: {fileID: 0}
     - target: {fileID: 8662022866767433795, guid: 888e37a135e712d42841cd705bc904df, type: 3}
       propertyPath: m_RootOrder
       value: 0
