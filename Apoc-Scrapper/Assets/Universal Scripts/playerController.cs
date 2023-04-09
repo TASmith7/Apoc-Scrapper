@@ -10,27 +10,27 @@ public class playerController : MonoBehaviour, IDamage
     [Header("----- Player Stats -----")]
     [Range(1, 10)][SerializeField] int HP;
     [Range(3, 8)] [SerializeField] float playerSpeed;
-    [Range(8, 25)] [SerializeField] float jumpHeight;
+    [Range(1, 8)] [SerializeField] float thrustPower;
     [Range(10, 50)] [SerializeField] float gravityValue;
-    [Range(1, 3)] [SerializeField] int jumpsMax;
 
     [Header("----- Gun Stats -----")]
     [Range(1, 10)] [SerializeField] int shootDamage;
     [Range(0.1f, 5)][SerializeField] float shootRate;
     [Range(1, 100)] [SerializeField] int shootDistance;
 
-    int jumpedTimes;
     private Vector3 playerVelocity;
     private bool groundedPlayer;
 
     bool isShooting; 
     Vector3 move;
     int HPOriginal;
+    float thrustRemaining;
 
     private void Start()
     {
         HPOriginal = HP;
         PlayerUIUpdate();
+        //thrustRemaining = gameManager.instance.jetpackFuel.fillAmount;
     }
 
     void Update()
@@ -49,25 +49,35 @@ public class playerController : MonoBehaviour, IDamage
     void Movement()
     {
         groundedPlayer = controller.isGrounded;
+
+        // if the player ison the ground and their velocity in y is less than 0
         if (groundedPlayer && playerVelocity.y < 0)
         {
+            // set the vertical velocity to 0
             playerVelocity.y = 0f;
-            jumpedTimes = 0;
         }
 
-
+        // movement on the x and z axes
         move = (transform.right * Input.GetAxis("Horizontal")) + 
                (transform.forward * Input.GetAxis("Vertical"));
 
+        // calling the builtin move method on the player controller with frame rate independence
         controller.Move(playerSpeed * Time.deltaTime * move);
 
-        if (Input.GetButtonDown("Jump") && jumpedTimes < jumpsMax)
+        if (Input.GetButton("Jump"))
         {
-            jumpedTimes++;
-            playerVelocity.y = jumpHeight;
-        }
+            // while player holds down space, give velocity in the y direction a value
+            playerVelocity.y = thrustPower;
 
+            // reducing the thrust fill while the player is pressing space
+            StartCoroutine(JetpackFuelUIUpdate());
+        }
+        
+
+        // ensuring our players y velocity take gravity into effect
         playerVelocity.y -= gravityValue * Time.deltaTime;
+
+        
         controller.Move(playerVelocity * Time.deltaTime);
     }
 
@@ -114,6 +124,12 @@ public class playerController : MonoBehaviour, IDamage
     void PlayerUIUpdate()
     {
         gameManager.instance.HPBar.fillAmount = (float) HP / (float) HPOriginal;
+    }
+
+    IEnumerator JetpackFuelUIUpdate()
+    {
+        gameManager.instance.jetpackFuelBar.fillAmount -= (float) 0.1;
+        yield return new WaitForSeconds(0.01f);
     }
 }
 
