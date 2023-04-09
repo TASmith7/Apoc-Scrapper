@@ -21,6 +21,9 @@ public class gameManager : MonoBehaviour
     public TextMeshProUGUI enemiesRemainingText;
     public Image jetpackFuelBar;
 
+    [Header("-----Turret Stuff-----")]
+    public GameObject turret;
+
     public int enemiesRemaining;
 
     public bool isPaused;
