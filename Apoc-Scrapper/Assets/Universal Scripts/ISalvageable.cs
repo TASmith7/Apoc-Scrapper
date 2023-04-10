@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface ISalvageable 
 {
-  
+   // public void SalvageObject(GameObject objectToSalvage);
 }

@@ -23,6 +23,7 @@ public class gameManager : MonoBehaviour
     public GameObject jetpackFuelBarParent;
     public GameObject mainReticle;
     public GameObject salvageableItemReticle;
+    public TextMeshProUGUI playerSalvageScoreText;
 
     [Header("-----Turret Stuff-----")]
     public GameObject turret;
@@ -120,5 +121,10 @@ public class gameManager : MonoBehaviour
     {
         salvageableItemReticle.SetActive(false);
         mainReticle.SetActive(true);
+    }
+
+    public void UpdateSalvageScore(int score)
+    {
+        playerSalvageScoreText.text = score.ToString();
     }
 }

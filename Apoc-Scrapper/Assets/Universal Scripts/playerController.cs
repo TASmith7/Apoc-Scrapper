@@ -12,6 +12,7 @@ public class playerController : MonoBehaviour, IDamage
     [Range(1, 10)][SerializeField] int HP;
     [Range(3, 8)] [SerializeField] float playerSpeed;
     [Range(10, 50)] [SerializeField] float gravityValue;
+    int playerSalvageScore;
 
     [Header("----- Jetpack Stats -----")]
     [Range(1, 8)][SerializeField] float thrustPower;
@@ -41,6 +42,7 @@ public class playerController : MonoBehaviour, IDamage
     {
         HPOriginal = HP;
         PlayerUIUpdate();
+        playerSalvageScore = 0;
     }
 
     void Update()
@@ -66,7 +68,6 @@ public class playerController : MonoBehaviour, IDamage
             // if the object we are looking at is salvageable
             ISalvageable salvageable = hit.collider.GetComponent<ISalvageable>();
 
-            // Debug.DrawRay(transform.position, hit.collider.transform.position);
             // if the above^ has the component ISalvageable (i.e. it's not null)
             if (salvageable != null)
             {
@@ -75,6 +76,7 @@ public class playerController : MonoBehaviour, IDamage
             }
             else
             {
+                // else if what we are looking at isn't salvageable, change/keep the reticle to main reticle
                 gameManager.instance.CueMainReticle();
             }
         }
@@ -151,12 +153,20 @@ public class playerController : MonoBehaviour, IDamage
             // if the object we hit contains the IDamage interface
             IDamage damageable = hit.collider.GetComponent<IDamage>();
 
+            // or if the object we clicked on contains the ISalvageable interface
+            ISalvageable salvageable = hit.collider.GetComponent<ISalvageable>();
+
             // if the above^ has the component IDamage (i.e. it's not null)
             if(damageable != null)
             {
                 // take damage from the damageable object
                 damageable.TakeDamage(shootDamage);
             }
+            // else if the object is salvageable
+            else if(salvageable != null)
+            {
+                SalvageObject(hit.collider.gameObject);
+            }    
         }
 
         // The yield return will wait for the specified amount of seconds
@@ -210,6 +220,13 @@ public class playerController : MonoBehaviour, IDamage
             gameManager.instance.jetpackFuelBar.fillAmount += fuelRefillRate * Time.deltaTime;
         }
         
+    }
+
+    public void SalvageObject(GameObject objectToSalvage)
+    {
+        playerSalvageScore += objectToSalvage.GetComponent<salvageableObject>().salvageValue;
+        Destroy(objectToSalvage);
+        gameManager.instance.UpdateSalvageScore(playerSalvageScore);
     }
 }
 
