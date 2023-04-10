@@ -56,7 +56,7 @@ public class enemyAI : MonoBehaviour, IDamage
         playerDirection = (gameManager.instance.player.transform.position - headPos.position);
 
         // this calculates the angle between where our player is and where we (the enemy) are looking
-        angleToPlayer = Vector3.Angle(new Vector3(playerDirection.x, 0, playerDirection.z), transform.forward);
+        angleToPlayer = Vector3.Angle(new Vector3(playerDirection.x, playerDirection.y, playerDirection.z), transform.forward);
 
         Debug.DrawRay(headPos.position, playerDirection, Color.red);
 
@@ -69,17 +69,17 @@ public class enemyAI : MonoBehaviour, IDamage
             // if the object we are hitting is the player, AND the angle to our player is within our sight angle
             if(hit.collider.CompareTag("Player") && angleToPlayer <= sightAngle)
             {
-                // if we can see the player, remember what the original stopping distance was, and reset it to that
-                agent.stoppingDistance = stoppingDistanceOrig;
+                
+                
 
                 // this gets the enemy to move in the direction of our player
-                agent.SetDestination(gameManager.instance.player.transform.position);
+                //agent.SetDestination(gameManager.instance.player.transform.position);
 
-                // if the agent has reached their stopping distance (i.e. the player is within the stopping distance we set), call face player method
-                if (agent.remainingDistance <= agent.stoppingDistance)
-                {
+               
+                
+                
                     FacePlayer();
-                }
+                
 
                 if (!isShooting)
                 {
@@ -157,7 +157,7 @@ public class enemyAI : MonoBehaviour, IDamage
 
     void FacePlayer()
     {
-        Quaternion rot = Quaternion.LookRotation(new Vector3(playerDirection.x, 0, playerDirection.z));
+        Quaternion rot = Quaternion.LookRotation(new Vector3(playerDirection.x, playerDirection.y, playerDirection.z));
         transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * playerFaceSpeed);
     }
 }

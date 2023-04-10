@@ -20,6 +20,12 @@ public class gameManager : MonoBehaviour
     public Image HPBar;
     public TextMeshProUGUI enemiesRemainingText;
     public Image jetpackFuelBar;
+    public GameObject jetpackFuelBarParent;
+    public GameObject mainReticle;
+    public GameObject salvageableItemReticle;
+
+    [Header("-----Turret Stuff-----")]
+    public GameObject turret;
 
     public int enemiesRemaining;
 
@@ -52,6 +58,7 @@ public class gameManager : MonoBehaviour
                 UnpauseState();
             }
         }
+
 
     }
 
@@ -89,5 +96,27 @@ public class gameManager : MonoBehaviour
         PauseState();
         activeMenu = loseMenu;
         activeMenu.SetActive(true);
+    }
+
+    public void TurnOffJetpackUI()
+    {
+        jetpackFuelBarParent.SetActive(false);
+    }
+
+    public void TurnOnJetpackUI()
+    {
+        jetpackFuelBarParent.SetActive(true);
+    }
+
+    public void CueSalvageableReticle()
+    {
+        mainReticle.SetActive(false);
+        salvageableItemReticle.SetActive(true);
+    }
+
+    public void CueMainReticle()
+    {
+        salvageableItemReticle.SetActive(false);
+        mainReticle.SetActive(true);
     }
 }
