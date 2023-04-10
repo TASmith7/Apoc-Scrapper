@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.AI;
@@ -17,26 +18,28 @@ public class ratAI : MonoBehaviour, IDamage
     [SerializeField] int playerFaceSpeed;
     [SerializeField] int sightAngle;
 
-    [Header("----- Gun Stats -----")]
+    [Header("----- Rat Gun Stats -----")]
     [Range(1, 10)][SerializeField] int shootDamage;
     [Range(0.1f, 5)][SerializeField] float shootRate;
     [SerializeField] float shootDistance;
-    [SerializeField] GameObject bullet;
+    [SerializeField] GameObject attack;
     [SerializeField] int bulletSpeed;
     
     Vector3 playerDirection;
     bool playerInRange;
     float angleToPlayer;
+    float distance;
     bool isShooting;
-    float stoppingDistanceOrig;
+
+    
 
 
     void Start()
     {
-        gameManager.instance.UpdateGameGoal(1);
+        
 
-        // caching the original stopping distance that we set
-        stoppingDistanceOrig = agent.stoppingDistance;
+
+
     }
 
 
@@ -46,7 +49,7 @@ public class ratAI : MonoBehaviour, IDamage
         if (playerInRange)
         {
             CanSeePlayer();
-
+            
         }
 
     }
@@ -57,7 +60,7 @@ public class ratAI : MonoBehaviour, IDamage
         playerDirection = (gameManager.instance.player.transform.position - headPos.position);
 
         // this calculates the angle between where our player is and where we (the enemy) are looking
-        angleToPlayer = Vector3.Angle(new Vector3(playerDirection.x, 90, playerDirection.z), transform.forward);
+        angleToPlayer = Vector3.Angle(new Vector3(playerDirection.x,playerDirection.y, playerDirection.z), transform.forward);
 
        
 
@@ -74,7 +77,7 @@ public class ratAI : MonoBehaviour, IDamage
 
 
                 // this gets the enemy to move in the direction of our player
-                //agent.SetDestination(gameManager.instance.player.transform.position);
+                agent.SetDestination(gameManager.instance.player.transform.position);
 
 
 
@@ -85,7 +88,9 @@ public class ratAI : MonoBehaviour, IDamage
                 if (!isShooting)
                 {
                     // if the player is within the sight range, which we check in update, and we are not already shooting (just so we don't shoot multiple times at once), start shooting
+                    if(distance<5)
                     StartCoroutine(Shoot());
+
                 }
 
 
@@ -102,7 +107,7 @@ public class ratAI : MonoBehaviour, IDamage
 
         // this creates a reference to an instantiated bullet, first parameter = what youre instantiating, second = where it's instantiating from on the enemy
         // (which we'll set in unity), third = the bullets orientation (doesn't really matter but it's necessary)
-        GameObject bulletClone = Instantiate(bullet, shootPos.position, bullet.transform.rotation);
+        GameObject bulletClone = Instantiate(attack, shootPos.position, attack.transform.rotation);
 
         // this will set the bullets velocity via the rigidbody component of the game object
         bulletClone.GetComponent<Rigidbody>().velocity = transform.forward * bulletSpeed;
@@ -119,6 +124,9 @@ public class ratAI : MonoBehaviour, IDamage
         if (other.CompareTag("Player"))
         {
             playerInRange = true;
+            
+            
+            
         }
     }
 
@@ -144,7 +152,7 @@ public class ratAI : MonoBehaviour, IDamage
 
         if (HP <= 0)
         {
-            gameManager.instance.UpdateGameGoal(-1);
+            
             Destroy(gameObject);
         }
     }
@@ -155,13 +163,10 @@ public class ratAI : MonoBehaviour, IDamage
         yield return new WaitForSeconds(0.1f);
         model.material.color = Color.white;
     }
-    void Jump()
-    {
-        
-    }
+   
     void FacePlayer()
     {
-        Quaternion rot = Quaternion.LookRotation(new Vector3(playerDirection.x, 90, playerDirection.z));
+        Quaternion rot = Quaternion.LookRotation(new Vector3(playerDirection.x, playerDirection.y, playerDirection.z));
         transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * playerFaceSpeed);
     }
 }
