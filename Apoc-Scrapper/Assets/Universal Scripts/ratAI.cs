@@ -77,7 +77,7 @@ public class ratAI : MonoBehaviour, IDamage
 
 
                 // this gets the enemy to move in the direction of our player
-                agent.SetDestination(gameManager.instance.player.transform.position);
+                //.SetDestination(gameManager.instance.player.transform.position);
 
 
 
