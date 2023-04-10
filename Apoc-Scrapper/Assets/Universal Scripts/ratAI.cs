@@ -57,7 +57,7 @@ public class ratAI : MonoBehaviour, IDamage
         playerDirection = (gameManager.instance.player.transform.position - headPos.position);
 
         // this calculates the angle between where our player is and where we (the enemy) are looking
-        angleToPlayer = Vector3.Angle(new Vector3(playerDirection.x, playerDirection.y, playerDirection.z), transform.forward);
+        angleToPlayer = Vector3.Angle(new Vector3(playerDirection.x, 90, playerDirection.z), transform.forward);
 
        
 
@@ -161,7 +161,7 @@ public class ratAI : MonoBehaviour, IDamage
     }
     void FacePlayer()
     {
-        Quaternion rot = Quaternion.LookRotation(new Vector3(playerDirection.x, playerDirection.y, playerDirection.z));
+        Quaternion rot = Quaternion.LookRotation(new Vector3(playerDirection.x, 90, playerDirection.z));
         transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * playerFaceSpeed);
     }
 }
