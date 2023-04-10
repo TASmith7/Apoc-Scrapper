@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class playerController : MonoBehaviour, IDamage
@@ -16,6 +17,7 @@ public class playerController : MonoBehaviour, IDamage
     [Range(1, 8)][SerializeField] float thrustPower;
     [Range(0.001f, 0.05f)] [SerializeField] float fuelConsumptionRate;
     [Range(0.0001f, 0.0003f)] [SerializeField] float fuelRefillRate;
+    [Range(1, 100)] [SerializeField] int timeToTurnOffFuelBar;
 
 
     [Header("----- Gun Stats -----")]
@@ -32,6 +34,8 @@ public class playerController : MonoBehaviour, IDamage
     Vector3 move;
     int HPOriginal;
     bool isThrusting;
+
+    float timeOfLastThrust;
 
     private void Start()
     {
@@ -56,7 +60,7 @@ public class playerController : MonoBehaviour, IDamage
     {
         groundedPlayer = controller.isGrounded;
 
-        // if the player ison the ground and their velocity in y is less than 0
+        // if the player is on the ground and their velocity in y is less than 0
         if (groundedPlayer && playerVelocity.y < 0)
         {
             // set the vertical velocity to 0
@@ -72,11 +76,16 @@ public class playerController : MonoBehaviour, IDamage
 
         if (Input.GetButton("Jump"))
         {
+            // turn on our jetpack fuel bar
+            gameManager.instance.TurnOnJetpackUI();
+
             // if we are not out of fuel
             if (gameManager.instance.jetpackFuelBar.fillAmount > 0)
             {
                 // while player holds down space, give velocity in the y direction a value
                 playerVelocity.y = thrustPower;
+
+                timeOfLastThrust = Time.fixedTime;
             }
             // reducing the fuel bar while the player is pressing space
             StartCoroutine(ReduceJetpackFuelUI());
@@ -87,6 +96,14 @@ public class playerController : MonoBehaviour, IDamage
         {
             StartCoroutine(RefillJetpackFuelUI());
         }
+
+        // if the elapsed time at our last thrust minus our current time elapsed is greater than or equal to 2 seconds
+        if(Time.fixedTime - timeOfLastThrust >= timeToTurnOffFuelBar)
+        {
+            // turn off jetpack fuel UI
+            gameManager.instance.TurnOffJetpackUI();
+        }
+
 
         // ensuring our players y velocity take gravity into effect
         playerVelocity.y -= gravityValue * Time.deltaTime;
