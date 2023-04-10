@@ -67,6 +67,8 @@ public class gameManager : MonoBehaviour
         Time.timeScale = 0;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
+        mainReticle.SetActive(false);
+        salvageableItemReticle.SetActive(false);
     }
 
     public void UnpauseState()

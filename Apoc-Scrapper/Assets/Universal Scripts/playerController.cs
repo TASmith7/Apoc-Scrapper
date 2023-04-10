@@ -15,8 +15,8 @@ public class playerController : MonoBehaviour, IDamage
 
     [Header("----- Jetpack Stats -----")]
     [Range(1, 8)][SerializeField] float thrustPower;
-    [Range(0.001f, 0.05f)] [SerializeField] float fuelConsumptionRate;
-    [Range(0.0001f, 0.0003f)] [SerializeField] float fuelRefillRate;
+    [Range(0, 1)] [SerializeField] float fuelConsumptionRate;
+    [Range(0, 0.5f)] [SerializeField] float fuelRefillRate;
     [Range(1, 100)] [SerializeField] int timeToTurnOffFuelBar;
 
 
@@ -55,6 +55,10 @@ public class playerController : MonoBehaviour, IDamage
             }
         }
 
+    }
+
+    void FixedUpdate()
+    {
         RaycastHit hit;
 
         if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, shootDistance))
@@ -69,7 +73,12 @@ public class playerController : MonoBehaviour, IDamage
                 // change the reticle to salvageable reticle
                 gameManager.instance.CueSalvageableReticle();
             }
+            else
+            {
+                gameManager.instance.CueMainReticle();
+            }
         }
+        
     }
 
     void Movement()
@@ -183,7 +192,7 @@ public class playerController : MonoBehaviour, IDamage
         StopCoroutine(RefillJetpackFuelUI());
 
         // reducing the jetpack fuel bar
-        gameManager.instance.jetpackFuelBar.fillAmount -= fuelConsumptionRate;
+        gameManager.instance.jetpackFuelBar.fillAmount -= fuelConsumptionRate * Time.deltaTime;
 
         yield return new WaitForSeconds(0.25f);
 
@@ -198,7 +207,7 @@ public class playerController : MonoBehaviour, IDamage
         if (!isThrusting)
         {
             // refilling the jetpack fuel bar
-            gameManager.instance.jetpackFuelBar.fillAmount += fuelRefillRate;
+            gameManager.instance.jetpackFuelBar.fillAmount += fuelRefillRate * Time.deltaTime;
         }
         
     }

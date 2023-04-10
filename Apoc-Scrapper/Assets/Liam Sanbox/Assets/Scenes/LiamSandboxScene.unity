@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 158087198}
   - component: {fileID: 158087197}
+  - component: {fileID: 158087199}
   - component: {fileID: 158087196}
   - component: {fileID: 158087195}
   - component: {fileID: 158087194}
@@ -233,6 +234,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &158087199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 158087193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a155f9b680a00a40ab2bb30c2cdd007, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &217013843
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -250,11 +263,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8662022866767433794, guid: 888e37a135e712d42841cd705bc904df, type: 3}
       propertyPath: fuelRefillRate
-      value: 0.0002
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 8662022866767433794, guid: 888e37a135e712d42841cd705bc904df, type: 3}
       propertyPath: fuelConsumptionRate
-      value: 0.001
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8662022866767433794, guid: 888e37a135e712d42841cd705bc904df, type: 3}
       propertyPath: timeToTurnOffFuelBar
