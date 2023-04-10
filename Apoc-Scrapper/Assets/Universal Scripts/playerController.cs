@@ -13,6 +13,8 @@ public class playerController : MonoBehaviour, IDamage
     [Range(3, 8)] [SerializeField] float playerSpeed;
     [Range(10, 50)] [SerializeField] float gravityValue;
     int playerSalvageScore;
+    [Range(1, 10)][SerializeField] int salvageRange;
+    [Range(0.5f, 5)][SerializeField] float salvageRate;
 
     [Header("----- Jetpack Stats -----")]
     [Range(1, 8)][SerializeField] float thrustPower;
@@ -26,12 +28,11 @@ public class playerController : MonoBehaviour, IDamage
     [Range(0.1f, 5)][SerializeField] float shootRate;
     [Range(1, 100)] [SerializeField] int shootDistance;
 
-    
-
     private Vector3 playerVelocity;
     private bool groundedPlayer;
 
-    bool isShooting; 
+    bool isShooting;
+    bool isSalvaging;
     Vector3 move;
     int HPOriginal;
     bool isThrusting;
@@ -54,6 +55,11 @@ public class playerController : MonoBehaviour, IDamage
             if (!isShooting && Input.GetButton("Shoot"))
             {
                 StartCoroutine(Shoot());
+            }
+            
+            if(!isSalvaging && Input.GetButton("Salvage"))
+            {
+                StartCoroutine(Salvage());
             }
         }
 
@@ -153,20 +159,12 @@ public class playerController : MonoBehaviour, IDamage
             // if the object we hit contains the IDamage interface
             IDamage damageable = hit.collider.GetComponent<IDamage>();
 
-            // or if the object we clicked on contains the ISalvageable interface
-            ISalvageable salvageable = hit.collider.GetComponent<ISalvageable>();
-
-            // if the above^ has the component IDamage (i.e. it's not null)
-            if(damageable != null)
+            // if the above^ has the component IDamage (i.e. it's not null), and it is not the player
+            if(damageable != null && hit.collider.tag != "Player")
             {
                 // take damage from the damageable object
                 damageable.TakeDamage(shootDamage);
             }
-            // else if the object is salvageable
-            else if(salvageable != null)
-            {
-                SalvageObject(hit.collider.gameObject);
-            }    
         }
 
         // The yield return will wait for the specified amount of seconds
@@ -174,6 +172,29 @@ public class playerController : MonoBehaviour, IDamage
         yield return new WaitForSeconds(shootRate);
         isShooting = false;
 
+    }
+
+    IEnumerator Salvage()
+    {
+        isSalvaging = true;
+
+        RaycastHit hit;
+
+        if(Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, salvageRange))
+        {
+            // if the object we clicked on contains the ISalvageable interface
+            ISalvageable salvageable = hit.collider.GetComponent<ISalvageable>();
+
+             // if the object is salvageable
+            if (salvageable != null)
+            {
+                SalvageObject(hit.collider.gameObject);
+            }
+        }
+
+        yield return new WaitForSeconds(salvageRate);
+
+        isSalvaging = false;
     }
 
     public void TakeDamage(int amount)
@@ -211,7 +232,6 @@ public class playerController : MonoBehaviour, IDamage
 
     IEnumerator RefillJetpackFuelUI()
     {
-
         yield return new WaitForSeconds(0.1f);
 
         if (!isThrusting)
@@ -224,8 +244,13 @@ public class playerController : MonoBehaviour, IDamage
 
     public void SalvageObject(GameObject objectToSalvage)
     {
+        // updating salvage score based on the objects salvage value assigned in inspector
         playerSalvageScore += objectToSalvage.GetComponent<salvageableObject>().salvageValue;
+
+        // destroying object
         Destroy(objectToSalvage);
+
+        // updating salvage score UI
         gameManager.instance.UpdateSalvageScore(playerSalvageScore);
     }
 }

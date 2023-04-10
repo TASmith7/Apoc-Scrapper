@@ -352,25 +352,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 8662022866767433794, guid: 888e37a135e712d42841cd705bc904df, type: 3}
-      propertyPath: shootDamage
-      value: 8
+    - target: {fileID: 8662022865529710559, guid: 888e37a135e712d42841cd705bc904df, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.161
       objectReference: {fileID: 0}
-    - target: {fileID: 8662022866767433794, guid: 888e37a135e712d42841cd705bc904df, type: 3}
-      propertyPath: thrustPower
-      value: 5
+    - target: {fileID: 8662022866767433793, guid: 888e37a135e712d42841cd705bc904df, type: 3}
+      propertyPath: m_Height
+      value: 2.31
       objectReference: {fileID: 0}
-    - target: {fileID: 8662022866767433794, guid: 888e37a135e712d42841cd705bc904df, type: 3}
-      propertyPath: fuelRefillRate
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8662022866767433794, guid: 888e37a135e712d42841cd705bc904df, type: 3}
-      propertyPath: fuelConsumptionRate
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8662022866767433794, guid: 888e37a135e712d42841cd705bc904df, type: 3}
-      propertyPath: timeToTurnOffFuelBar
-      value: 5
+    - target: {fileID: 8662022866767433793, guid: 888e37a135e712d42841cd705bc904df, type: 3}
+      propertyPath: m_Center.y
+      value: 1.23
       objectReference: {fileID: 0}
     - target: {fileID: 8662022866767433795, guid: 888e37a135e712d42841cd705bc904df, type: 3}
       propertyPath: m_RootOrder
@@ -382,7 +374,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8662022866767433795, guid: 888e37a135e712d42841cd705bc904df, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8662022866767433795, guid: 888e37a135e712d42841cd705bc904df, type: 3}
       propertyPath: m_LocalPosition.z
@@ -415,6 +407,14 @@ PrefabInstance:
     - target: {fileID: 8662022866767433795, guid: 888e37a135e712d42841cd705bc904df, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8662022866767433806, guid: 888e37a135e712d42841cd705bc904df, type: 3}
+      propertyPath: m_Height
+      value: 2.31
+      objectReference: {fileID: 0}
+    - target: {fileID: 8662022866767433806, guid: 888e37a135e712d42841cd705bc904df, type: 3}
+      propertyPath: m_Center.y
+      value: 1.23
       objectReference: {fileID: 0}
     - target: {fileID: 8662022866767433807, guid: 888e37a135e712d42841cd705bc904df, type: 3}
       propertyPath: m_Name
