@@ -159,8 +159,8 @@ public class playerController : MonoBehaviour, IDamage
             // if the object we hit contains the IDamage interface
             IDamage damageable = hit.collider.GetComponent<IDamage>();
 
-            // if the above^ has the component IDamage (i.e. it's not null)
-            if(damageable != null)
+            // if the above^ has the component IDamage (i.e. it's not null), and it is not the player
+            if(damageable != null && hit.collider.tag != "Player")
             {
                 // take damage from the damageable object
                 damageable.TakeDamage(shootDamage);
