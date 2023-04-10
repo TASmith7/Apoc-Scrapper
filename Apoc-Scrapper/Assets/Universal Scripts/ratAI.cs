@@ -12,6 +12,7 @@ public class ratAI : MonoBehaviour, IDamage
     [SerializeField] UnityEngine.AI.NavMeshAgent agent;
     [SerializeField] Transform headPos;
     [SerializeField] Transform shootPos;
+    [SerializeField] SphereCollider ratColl;
 
     [Header("----- Enemy Stats -----")]
     [SerializeField] int HP;
@@ -24,20 +25,26 @@ public class ratAI : MonoBehaviour, IDamage
     [SerializeField] float shootDistance;
     [SerializeField] GameObject attack;
     [SerializeField] int bulletSpeed;
-    
+    [Range(10, 200)][SerializeField] float radiusSleep;
+    [Range(10,1000)][SerializeField] float radiusActive;
+
+    [SerializeField] float activeRadius;
     Vector3 playerDirection;
     bool playerInRange;
     float angleToPlayer;
     float distance;
     bool isShooting;
-
+     float radius;
+     bool active;
     
+
+
 
 
     void Start()
     {
-        
 
+        radius = radiusSleep;
 
 
     }
@@ -56,6 +63,8 @@ public class ratAI : MonoBehaviour, IDamage
 
     bool CanSeePlayer()
     {
+        active = true;
+
         // this tells us what direction our player is in relative to our enemy
         playerDirection = (gameManager.instance.player.transform.position - headPos.position);
 
@@ -124,9 +133,16 @@ public class ratAI : MonoBehaviour, IDamage
         if (other.CompareTag("Player"))
         {
             playerInRange = true;
+
+            ratColl.radius = radiusActive;
+            activeRadius=ratColl.radius;
+
+
+
             
             
-            
+
+
         }
     }
 
