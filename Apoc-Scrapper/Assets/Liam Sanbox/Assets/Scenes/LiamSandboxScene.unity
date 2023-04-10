@@ -211,6 +211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   salvageValue: 100
+  salvageParticles: {fileID: 0}
 --- !u!33 &88775822
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -345,6 +346,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   salvageValue: 100
+  salvageParticles: {fileID: 6860904665383379249, guid: 1c79079fd4a2c1f42bb52ef3ab0982d7, type: 3}
 --- !u!1001 &217013843
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -353,12 +355,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 8662022866767433794, guid: 888e37a135e712d42841cd705bc904df, type: 3}
+      propertyPath: salvageRate
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8662022866767433794, guid: 888e37a135e712d42841cd705bc904df, type: 3}
       propertyPath: shootDamage
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8662022866767433794, guid: 888e37a135e712d42841cd705bc904df, type: 3}
       propertyPath: thrustPower
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8662022866767433794, guid: 888e37a135e712d42841cd705bc904df, type: 3}
+      propertyPath: salvageRange
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8662022866767433794, guid: 888e37a135e712d42841cd705bc904df, type: 3}
       propertyPath: fuelRefillRate
@@ -604,6 +614,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   salvageValue: 100
+  salvageParticles: {fileID: 0}
 --- !u!33 &350059633
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -720,6 +731,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   salvageValue: 100
+  salvageParticles: {fileID: 0}
 --- !u!33 &497700548
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -831,6 +843,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   salvageValue: 100
+  salvageParticles: {fileID: 0}
 --- !u!33 &564608409
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -947,6 +960,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   salvageValue: 100
+  salvageParticles: {fileID: 0}
 --- !u!33 &645293613
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1074,6 +1088,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   salvageValue: 100
+  salvageParticles: {fileID: 0}
 --- !u!33 &878326150
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1381,6 +1396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   salvageValue: 100
+  salvageParticles: {fileID: 0}
 --- !u!33 &1018128212
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1492,6 +1508,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   salvageValue: 100
+  salvageParticles: {fileID: 0}
 --- !u!33 &1051049985
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1603,6 +1620,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   salvageValue: 100
+  salvageParticles: {fileID: 0}
 --- !u!33 &1061930854
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1784,6 +1802,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   salvageValue: 100
+  salvageParticles: {fileID: 6860904665383379249, guid: 1c79079fd4a2c1f42bb52ef3ab0982d7, type: 3}
 --- !u!33 &1243747374
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1895,6 +1914,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   salvageValue: 100
+  salvageParticles: {fileID: 0}
 --- !u!33 &1332404813
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2006,6 +2026,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   salvageValue: 100
+  salvageParticles: {fileID: 6860904665383379249, guid: 1c79079fd4a2c1f42bb52ef3ab0982d7, type: 3}
 --- !u!33 &1496799394
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2257,6 +2278,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   salvageValue: 100
+  salvageParticles: {fileID: 6860904665383379249, guid: 1c79079fd4a2c1f42bb52ef3ab0982d7, type: 3}
 --- !u!33 &1662732547
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2433,6 +2455,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   salvageValue: 100
+  salvageParticles: {fileID: 0}
 --- !u!33 &1857331921
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2579,6 +2602,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   salvageValue: 100
+  salvageParticles: {fileID: 0}
 --- !u!33 &1976355143
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2690,6 +2714,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   salvageValue: 100
+  salvageParticles: {fileID: 0}
 --- !u!33 &2014948058
 MeshFilter:
   m_ObjectHideFlags: 0
