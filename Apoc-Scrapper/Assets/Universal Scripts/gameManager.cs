@@ -19,6 +19,10 @@ public class gameManager : MonoBehaviour
     public GameObject loseMenu;
     public Image HPBar;
     public TextMeshProUGUI enemiesRemainingText;
+    public TextMeshProUGUI salvageCollected;
+    public int amtSalvaged;
+    public TextMeshProUGUI grade;
+    public char playerGrade;
     public Image jetpackFuelBar;
     public GameObject jetpackFuelBarParent;
     public GameObject mainReticle;
@@ -36,6 +40,7 @@ public class gameManager : MonoBehaviour
     void Awake()
     {
         instance = this;
+        
         player = GameObject.FindGameObjectWithTag("Player");
         playerScript = player.GetComponent<playerController>();
         timeScaleOriginal = Time.timeScale;
@@ -126,5 +131,37 @@ public class gameManager : MonoBehaviour
     public void UpdateSalvageScore(int score)
     {
         playerSalvageScoreText.text = score.ToString();
+        amtSalvaged += score;
+    }
+    public void PlayerWins()
+    {
+        salvageCollected.text=amtSalvaged.ToString("F0");
+        if(amtSalvaged>4501&&amtSalvaged<=5000)
+        {
+            playerGrade = 'S';
+        }
+        else if(amtSalvaged > 4001 && amtSalvaged <= 4500)
+        {
+            playerGrade = 'A';
+        }
+        else if (amtSalvaged > 3501 && amtSalvaged <= 4000)
+        {
+            playerGrade = 'B';
+        }
+        else if (amtSalvaged > 3001 && amtSalvaged <= 3500)
+        {
+            playerGrade = 'C';
+
+        }
+        else if (amtSalvaged > 2501 && amtSalvaged <= 3000)
+        {
+            playerGrade = 'D';
+        }
+        else
+        {
+            playerGrade = 'F';
+        }
+        grade.text = playerGrade.ToString();
+
     }
 }

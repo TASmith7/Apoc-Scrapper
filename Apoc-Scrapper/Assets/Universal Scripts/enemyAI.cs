@@ -32,7 +32,7 @@ public class enemyAI : MonoBehaviour, IDamage
 
     void Start()
     {
-        gameManager.instance.UpdateGameGoal(1);
+        
 
         // caching the original stopping distance that we set
         stoppingDistanceOrig = agent.stoppingDistance;
@@ -143,7 +143,7 @@ public class enemyAI : MonoBehaviour, IDamage
 
         if(HP <= 0)
         {
-            gameManager.instance.UpdateGameGoal(-1);
+            
             Destroy(gameObject);
         }
     }
