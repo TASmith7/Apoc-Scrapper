@@ -15,7 +15,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3876419398489962540
 Transform:
   m_ObjectHideFlags: 0
@@ -323,7 +323,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2208341715588460365
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1501,6 +1501,7 @@ MonoBehaviour:
   salvageableItemReticle: {fileID: 5765918792497908450}
   playerSalvageScoreText: {fileID: 5975933537416233716}
   turret: {fileID: 0}
+  rat: {fileID: 0}
   enemiesRemaining: 0
   isPaused: 0
 --- !u!1 &2208341716693940920
@@ -2748,7 +2749,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7528973504422000321
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3130,7 +3131,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5003842306766168668
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4515,7 +4516,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &5765918793101220019
 RectTransform:
   m_ObjectHideFlags: 0

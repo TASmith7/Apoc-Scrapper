@@ -435,6 +435,11 @@ MonoBehaviour:
   lockVertMin: -90
   lockVertMax: 90
   invertY: 0
+--- !u!1 &963453207 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8259345155599308926, guid: aaeff4c47cebe654490ac69627586e70, type: 3}
+  m_PrefabInstance: {fileID: 5987735496385148586}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1735392507
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -560,14 +565,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 126911488243745382, guid: 80e7cefebb5d3ff458b642c92c95225b, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2208341715588460364, guid: 80e7cefebb5d3ff458b642c92c95225b, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
+    - target: {fileID: 2208341716617506570, guid: 80e7cefebb5d3ff458b642c92c95225b, type: 3}
+      propertyPath: rat
+      value: 
+      objectReference: {fileID: 963453207}
     - target: {fileID: 2208341716617506570, guid: 80e7cefebb5d3ff458b642c92c95225b, type: 3}
       propertyPath: player
       value: 
@@ -580,10 +581,6 @@ PrefabInstance:
       propertyPath: playerScript
       value: 
       objectReference: {fileID: 125648944}
-    - target: {fileID: 3131701192422410764, guid: 80e7cefebb5d3ff458b642c92c95225b, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5003842306674153783, guid: 80e7cefebb5d3ff458b642c92c95225b, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -671,14 +668,6 @@ PrefabInstance:
     - target: {fileID: 5003842306674153787, guid: 80e7cefebb5d3ff458b642c92c95225b, type: 3}
       propertyPath: m_Name
       value: UI
-      objectReference: {fileID: 0}
-    - target: {fileID: 5003842306766168669, guid: 80e7cefebb5d3ff458b642c92c95225b, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5765918793101220016, guid: 80e7cefebb5d3ff458b642c92c95225b, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 80e7cefebb5d3ff458b642c92c95225b, type: 3}

@@ -77,7 +77,7 @@ public class ratAI : MonoBehaviour, IDamage
 
 
                 // this gets the enemy to move in the direction of our player
-                //.SetDestination(gameManager.instance.player.transform.position);
+                agent.SetDestination(gameManager.instance.player.transform.position);
 
 
 
@@ -143,7 +143,7 @@ public class ratAI : MonoBehaviour, IDamage
         HP -= amount;
 
         // if we (the enemy) gets shot, we should know where the player shot us from
-        agent.SetDestination(gameManager.instance.player.transform.position);
+        //agent.SetDestination(gameManager.instance.player.transform.position);
 
         // remove the stopping distance so that the enemy goes right to the spot where we shot him from, rather than stopping with the stopping distance
         agent.stoppingDistance = 0;

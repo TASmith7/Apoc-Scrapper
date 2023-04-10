@@ -30,8 +30,10 @@ public class gameManager : MonoBehaviour
     public TextMeshProUGUI playerSalvageScoreText;
 
     [Header("-----Turret Stuff-----")]
+    
     public GameObject turret;
-
+    [Header("-----Rat Stuff-----")]
+    public GameObject rat;
     public int enemiesRemaining;
 
     public bool isPaused;
