@@ -134,7 +134,7 @@ public class enemyAI : MonoBehaviour, IDamage
         HP -= amount;
 
         // if we (the enemy) gets shot, we should know where the player shot us from
-        agent.SetDestination(gameManager.instance.player.transform.position);
+        //agent.SetDestination(gameManager.instance.player.transform.position);
 
         // remove the stopping distance so that the enemy goes right to the spot where we shot him from, rather than stopping with the stopping distance
         agent.stoppingDistance = 0;
