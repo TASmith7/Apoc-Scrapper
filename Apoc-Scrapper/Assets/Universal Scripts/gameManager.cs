@@ -21,6 +21,8 @@ public class gameManager : MonoBehaviour
     public TextMeshProUGUI enemiesRemainingText;
     public Image jetpackFuelBar;
     public GameObject jetpackFuelBarParent;
+    public GameObject mainReticle;
+    public GameObject salvageableItemReticle;
 
     [Header("-----Turret Stuff-----")]
     public GameObject turret;
@@ -106,5 +108,15 @@ public class gameManager : MonoBehaviour
         jetpackFuelBarParent.SetActive(true);
     }
 
+    public void CueSalvageableReticle()
+    {
+        mainReticle.SetActive(false);
+        salvageableItemReticle.SetActive(true);
+    }
 
+    public void CueMainReticle()
+    {
+        salvageableItemReticle.SetActive(false);
+        mainReticle.SetActive(true);
+    }
 }

@@ -54,6 +54,22 @@ public class playerController : MonoBehaviour, IDamage
                 StartCoroutine(Shoot());
             }
         }
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, shootDistance))
+        {
+            // if the object we are looking at is salvageable
+            ISalvageable salvageable = hit.collider.GetComponent<ISalvageable>();
+
+            // Debug.DrawRay(transform.position, hit.collider.transform.position);
+            // if the above^ has the component ISalvageable (i.e. it's not null)
+            if (salvageable != null)
+            {
+                // change the reticle to salvageable reticle
+                gameManager.instance.CueSalvageableReticle();
+            }
+        }
     }
 
     void Movement()
