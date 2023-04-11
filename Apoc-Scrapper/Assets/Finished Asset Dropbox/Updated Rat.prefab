@@ -135,18 +135,18 @@ MonoBehaviour:
   agent: {fileID: 2665592813595079170}
   headPos: {fileID: 876295197427305285}
   shootPos: {fileID: 876295197427305285}
-  ratColl: {fileID: 2665592813595079181}
+  ratCollWake: {fileID: 2665592813595079181}
   HP: 10
   playerFaceSpeed: 600
   sightAngle: 360
-  shootDamage: 1
-  shootRate: 1
-  shootDistance: 1
-  attack: {fileID: 7487697723238680399, guid: 0f5231d52e81c47438d1e4d71b4de83c, type: 3}
-  bulletSpeed: 50
   radiusSleep: 50
   radiusActive: 500
   activeRadius: 50
+  biteDamage: 0
+  biteRate: 0
+  biteDistance: 0
+  attack: {fileID: 7487697723238680399, guid: 0f5231d52e81c47438d1e4d71b4de83c, type: 3}
+  attackSpeed: 0
 --- !u!195 &2665592813595079170
 NavMeshAgent:
   m_ObjectHideFlags: 0
