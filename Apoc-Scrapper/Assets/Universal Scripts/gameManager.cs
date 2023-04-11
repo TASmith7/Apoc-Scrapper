@@ -88,17 +88,16 @@ public class gameManager : MonoBehaviour
         activeMenu = null;
     }
 
-    public void UpdateGameGoal(int amount)
+    public void UpdateGameGoal()
     {
-        enemiesRemaining += amount;
-        enemiesRemainingText.text = enemiesRemaining.ToString("F0");
+        
 
-        if(enemiesRemaining <= 0)
-        {
+        
+        
             activeMenu = winMenu;
             activeMenu.SetActive(true);
             PauseState();
-        }
+        
     }
 
     public void PlayerDead()

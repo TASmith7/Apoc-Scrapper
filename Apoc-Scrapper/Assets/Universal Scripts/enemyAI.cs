@@ -10,6 +10,7 @@ public class enemyAI : MonoBehaviour, IDamage
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Transform headPos;
     [SerializeField] Transform shootPos;
+    //[SerializeField] Rigidbody rigidBody;
 
     [Header("----- Enemy Stats -----")]
     [SerializeField] int HP;
@@ -145,6 +146,7 @@ public class enemyAI : MonoBehaviour, IDamage
         {
             
             Destroy(gameObject);
+            //Rigidbody.Instantiate(rigidBody);
         }
     }
 

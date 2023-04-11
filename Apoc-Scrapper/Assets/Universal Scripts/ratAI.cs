@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Diagnostics;
+
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,33 +8,41 @@ public class ratAI : MonoBehaviour, IDamage
 {
     [Header("----- Components -----")]
     [SerializeField] Renderer model;
-    [SerializeField] UnityEngine.AI.NavMeshAgent agent;
+    [SerializeField] NavMeshAgent agent;
     [SerializeField] Transform headPos;
     [SerializeField] Transform shootPos;
-    [SerializeField] SphereCollider ratColl;
+    [SerializeField] SphereCollider ratCollWake;
+    /*[SerializeField] SphereCollider ratCollBite*/
+    //[SerializeField] Rigidbody rb;
 
-    [Header("----- Enemy Stats -----")]
+    [Header("----- Rat Stats -----")]
     [SerializeField] int HP;
     [SerializeField] int playerFaceSpeed;
     [SerializeField] int sightAngle;
-
-    [Header("----- Rat Gun Stats -----")]
-    [Range(1, 10)][SerializeField] int shootDamage;
-    [Range(0.1f, 5)][SerializeField] float shootRate;
-    [SerializeField] float shootDistance;
-    [SerializeField] GameObject attack;
-    [SerializeField] int bulletSpeed;
     [Range(10, 200)][SerializeField] float radiusSleep;
     [Range(10,1000)][SerializeField] float radiusActive;
-
     [SerializeField] float activeRadius;
+
+    [Header("----- Rat Bite Stats -----")]
+    [Range(1, 10)][SerializeField] int biteDamage;
+    [Range(0.1f, 5)][SerializeField] float biteRate;
+    [SerializeField] float biteDistance;
+    [SerializeField] GameObject attack;
+    [SerializeField] float attackSpeed;
+
+    //[Header("----- Rat Jump Stats (WIP)-----")]
+    //[SerializeField] float jumpHeight;
+    //[SerializeField] float jumpDistance;
+    //[SerializeField] float jumpAmt;
+
     Vector3 playerDirection;
     bool playerInRange;
     float angleToPlayer;
     float distance;
     bool isShooting;
-     float radius;
-     bool active;
+    
+     
+     
     
 
 
@@ -43,9 +50,11 @@ public class ratAI : MonoBehaviour, IDamage
 
     void Start()
     {
-
-        radius = radiusSleep;
-
+        
+        activeRadius = radiusSleep;
+        
+        ratCollWake.radius = activeRadius ;
+        //rb = GetComponent<Rigidbody>();
 
     }
 
@@ -60,10 +69,11 @@ public class ratAI : MonoBehaviour, IDamage
         }
 
     }
+    
 
     bool CanSeePlayer()
     {
-        active = true;
+        
 
         // this tells us what direction our player is in relative to our enemy
         playerDirection = (gameManager.instance.player.transform.position - headPos.position);
@@ -83,7 +93,7 @@ public class ratAI : MonoBehaviour, IDamage
             if (hit.collider.CompareTag("Player") && angleToPlayer <= sightAngle)
             {
 
-
+                
 
                 // this gets the enemy to move in the direction of our player
                 agent.SetDestination(gameManager.instance.player.transform.position);
@@ -97,9 +107,14 @@ public class ratAI : MonoBehaviour, IDamage
                 if (!isShooting)
                 {
                     // if the player is within the sight range, which we check in update, and we are not already shooting (just so we don't shoot multiple times at once), start shooting
-                    if(distance<5)
-                    StartCoroutine(Shoot());
+                    
+                    
+                        //Jump(ratCollBite);
+                        
+                        StartCoroutine(Shoot());
 
+                    
+                    
                 }
 
 
@@ -119,10 +134,10 @@ public class ratAI : MonoBehaviour, IDamage
         GameObject bulletClone = Instantiate(attack, shootPos.position, attack.transform.rotation);
 
         // this will set the bullets velocity via the rigidbody component of the game object
-        bulletClone.GetComponent<Rigidbody>().velocity = transform.forward * bulletSpeed;
+        bulletClone.GetComponent<Rigidbody>().velocity = transform.forward * attackSpeed;
 
         // our wait time which is going to be our defined shootRate
-        yield return new WaitForSeconds(shootRate);
+        yield return new WaitForSeconds(biteRate);
 
         isShooting = false;
     }
@@ -130,22 +145,35 @@ public class ratAI : MonoBehaviour, IDamage
     // any object that ENTERS the collider
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            playerInRange = true;
+        
+        
+            if (other.CompareTag("Player"))
+            {
+                playerInRange = true;
 
-            ratColl.radius = radiusActive;
-            activeRadius=ratColl.radius;
-
-
-
+                ratCollWake.radius = radiusActive;
+                activeRadius = ratCollWake.radius;
+            }
+        
+        
+        
             
-            
-
-
-        }
+        
     }
+    //void Jump(SphereCollider jumpColl)
+    //{
+    //    if (jumpColl.CompareTag("Player"))
+    //    {
+    //        // Calculate the direction towards the player
+    //        Vector3 targetDirection = (jumpColl.transform.position - transform.position).normalized;
 
+    //        // Calculate the force vector considering the jump height, jump distance, and target direction
+    //        Vector3 force = new Vector3(targetDirection.x * jumpDistance, jumpHeight, targetDirection.z * jumpDistance);
+
+    //        // Apply the force to the Rigidbody
+    //        rb.AddForce(force, ForceMode.Impulse);
+    //    }
+    //}
     // any object that EXITS the collider
     public void OnTriggerExit(Collider other)
     {
