@@ -1,61 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
-
 using UnityEngine;
 using UnityEngine.AI;
 
-public class ratAI : MonoBehaviour, IDamage
+public class enemyAI : MonoBehaviour, IDamage
 {
     [Header("----- Components -----")]
     [SerializeField] Renderer model;
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Transform headPos;
     [SerializeField] Transform shootPos;
-    [SerializeField] SphereCollider ratCollWake;
-    /*[SerializeField] SphereCollider ratCollBite*/
-    //[SerializeField] Rigidbody rb;
+    //[SerializeField] Rigidbody rigidBody;
 
-    [Header("----- Rat Stats -----")]
+    [Header("----- Enemy Stats -----")]
     [SerializeField] int HP;
     [SerializeField] int playerFaceSpeed;
     [SerializeField] int sightAngle;
-    [Range(10, 200)][SerializeField] float radiusSleep;
-    [Range(10,1000)][SerializeField] float radiusActive;
-    [SerializeField] float activeRadius;
 
-    [Header("----- Rat Bite Stats -----")]
-    [Range(1, 10)][SerializeField] int biteDamage;
-    [Range(0.1f, 5)][SerializeField] float biteRate;
-    [SerializeField] float biteDistance;
-    [SerializeField] GameObject attack;
-    [SerializeField] float attackSpeed;
-
-    //[Header("----- Rat Jump Stats (WIP)-----")]
-    //[SerializeField] float jumpHeight;
-    //[SerializeField] float jumpDistance;
-    //[SerializeField] float jumpAmt;
+    [Header("----- Gun Stats -----")]
+    
+    [Range(0.1f, 5)][SerializeField] float shootRate;
+    [Range(1, 100)][SerializeField] int shootDistance;
+    [SerializeField] GameObject bullet;
+    [SerializeField] int bulletSpeed;
 
     Vector3 playerDirection;
     bool playerInRange;
     float angleToPlayer;
-    float distance;
     bool isShooting;
+    float stoppingDistanceOrig;
     
-     
-     
-    
-
-
-
 
     void Start()
     {
         
-        activeRadius = radiusSleep;
-        
-        
-        //rb = GetComponent<Rigidbody>();
 
+        // caching the original stopping distance that we set
+        stoppingDistanceOrig = agent.stoppingDistance;
     }
 
 
@@ -67,54 +48,44 @@ public class ratAI : MonoBehaviour, IDamage
             CanSeePlayer();
             
         }
-
+        
     }
-    
 
     bool CanSeePlayer()
     {
-        
-
         // this tells us what direction our player is in relative to our enemy
         playerDirection = (gameManager.instance.player.transform.position - headPos.position);
 
         // this calculates the angle between where our player is and where we (the enemy) are looking
-        angleToPlayer = Vector3.Angle(new Vector3(playerDirection.x,playerDirection.y, playerDirection.z), transform.forward);
+        angleToPlayer = Vector3.Angle(new Vector3(playerDirection.x, playerDirection.y, playerDirection.z), transform.forward);
 
-       
+        Debug.DrawRay(headPos.position, playerDirection, Color.red);
 
         // this returns the info of WHAT is HIT by the raycast
         RaycastHit hit;
 
         // this will shoot the raycast in the direction of the player at all times. Our 'out' variable is what object is getting hit
-        if (Physics.Raycast(headPos.position, playerDirection, out hit))
+        if(Physics.Raycast(headPos.position, playerDirection, out hit))
         {
             // if the object we are hitting is the player, AND the angle to our player is within our sight angle
-            if (hit.collider.CompareTag("Player") && angleToPlayer <= sightAngle)
+            if(hit.collider.CompareTag("Player") && angleToPlayer <= sightAngle)
             {
-
+                
                 
 
                 // this gets the enemy to move in the direction of our player
-                agent.SetDestination(gameManager.instance.player.transform.position);
+                //agent.SetDestination(gameManager.instance.player.transform.position);
 
-
-
-
-                FacePlayer();
-
+               
+                
+                
+                    FacePlayer();
+                
 
                 if (!isShooting)
                 {
                     // if the player is within the sight range, which we check in update, and we are not already shooting (just so we don't shoot multiple times at once), start shooting
-                    
-                    
-                        //Jump(ratCollBite);
-                        
-                        StartCoroutine(Shoot());
-
-                    
-                    
+                    StartCoroutine(Shoot());
                 }
 
 
@@ -128,52 +99,29 @@ public class ratAI : MonoBehaviour, IDamage
     IEnumerator Shoot()
     {
         isShooting = true;
-
+        
         // this creates a reference to an instantiated bullet, first parameter = what youre instantiating, second = where it's instantiating from on the enemy
         // (which we'll set in unity), third = the bullets orientation (doesn't really matter but it's necessary)
-        GameObject bulletClone = Instantiate(attack, shootPos.position, attack.transform.rotation);
+        GameObject bulletClone = Instantiate(bullet, shootPos.position, bullet.transform.rotation);
 
         // this will set the bullets velocity via the rigidbody component of the game object
-        bulletClone.GetComponent<Rigidbody>().velocity = transform.forward * attackSpeed;
+        bulletClone.GetComponent<Rigidbody>().velocity = transform.forward * bulletSpeed;
 
         // our wait time which is going to be our defined shootRate
-        yield return new WaitForSeconds(biteRate);
+        yield return new WaitForSeconds(shootRate);
 
-        isShooting = false;
+        isShooting = false; 
     }
 
     // any object that ENTERS the collider
     void OnTriggerEnter(Collider other)
     {
-        
-        
-            if (other.CompareTag("Player"))
-            {
-                playerInRange = true;
-
-                ratCollWake.radius = radiusActive;
-                activeRadius = ratCollWake.radius;
-            }
-        
-        
-        
-            
-        
+        if(other.CompareTag("Player"))
+        {
+            playerInRange = true;
+        }
     }
-    //void Jump(SphereCollider jumpColl)
-    //{
-    //    if (jumpColl.CompareTag("Player"))
-    //    {
-    //        // Calculate the direction towards the player
-    //        Vector3 targetDirection = (jumpColl.transform.position - transform.position).normalized;
 
-    //        // Calculate the force vector considering the jump height, jump distance, and target direction
-    //        Vector3 force = new Vector3(targetDirection.x * jumpDistance, jumpHeight, targetDirection.z * jumpDistance);
-
-    //        // Apply the force to the Rigidbody
-    //        rb.AddForce(force, ForceMode.Impulse);
-    //    }
-    //}
     // any object that EXITS the collider
     public void OnTriggerExit(Collider other)
     {
@@ -194,10 +142,11 @@ public class ratAI : MonoBehaviour, IDamage
 
         StartCoroutine(FlashColor());
 
-        if (HP <= 0)
+        if(HP <= 0)
         {
             
             Destroy(gameObject);
+            //Rigidbody.Instantiate(rigidBody);
         }
     }
 
@@ -207,7 +156,7 @@ public class ratAI : MonoBehaviour, IDamage
         yield return new WaitForSeconds(0.1f);
         model.material.color = Color.white;
     }
-   
+
     void FacePlayer()
     {
         Quaternion rot = Quaternion.LookRotation(new Vector3(playerDirection.x, playerDirection.y, playerDirection.z));

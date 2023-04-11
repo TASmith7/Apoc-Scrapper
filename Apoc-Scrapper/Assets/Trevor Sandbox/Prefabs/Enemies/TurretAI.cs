@@ -1,14 +1,12 @@
 using System.Collections;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class enemyAI : MonoBehaviour, IDamage
+public class TurretAI : MonoBehaviour, IDamage
 {
     [Header("----- Components -----")]
     [SerializeField] Renderer model;
-    [SerializeField] NavMeshAgent agent;
     [SerializeField] Transform headPos;
     [SerializeField] Transform shootPos;
     //[SerializeField] Rigidbody rigidBody;
@@ -19,7 +17,7 @@ public class enemyAI : MonoBehaviour, IDamage
     [SerializeField] int sightAngle;
 
     [Header("----- Gun Stats -----")]
-    [Range(1, 10)][SerializeField] int shootDamage;
+    
     [Range(0.1f, 5)][SerializeField] float shootRate;
     [Range(1, 100)][SerializeField] int shootDistance;
     [SerializeField] GameObject bullet;
@@ -29,7 +27,7 @@ public class enemyAI : MonoBehaviour, IDamage
     bool playerInRange;
     float angleToPlayer;
     bool isShooting;
-    float stoppingDistanceOrig;
+    
     
 
     void Start()
@@ -37,7 +35,7 @@ public class enemyAI : MonoBehaviour, IDamage
         
 
         // caching the original stopping distance that we set
-        stoppingDistanceOrig = agent.stoppingDistance;
+        
     }
 
 
@@ -139,7 +137,7 @@ public class enemyAI : MonoBehaviour, IDamage
         //agent.SetDestination(gameManager.instance.player.transform.position);
 
         // remove the stopping distance so that the enemy goes right to the spot where we shot him from, rather than stopping with the stopping distance
-        agent.stoppingDistance = 0;
+        //agent.stoppingDistance = 0;
 
         StartCoroutine(FlashColor());
 
