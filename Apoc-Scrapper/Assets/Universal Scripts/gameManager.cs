@@ -90,10 +90,10 @@ public class gameManager : MonoBehaviour
 
     public void UpdateGameGoal()
     {
-        
 
-        
-        
+
+
+            PlayerWins();
             activeMenu = winMenu;
             activeMenu.SetActive(true);
             PauseState();
@@ -136,8 +136,8 @@ public class gameManager : MonoBehaviour
     }
     public void PlayerWins()
     {
-        salvageCollected.text=amtSalvaged.ToString("F0");
-        if(amtSalvaged>4501&&amtSalvaged<=5000)
+        salvageCollected.text=amtSalvaged.ToString();
+        if(amtSalvaged>4501)
         {
             playerGrade = 'S';
         }
