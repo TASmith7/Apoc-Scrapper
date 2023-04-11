@@ -29,12 +29,12 @@ public class gameManager : MonoBehaviour
     public GameObject salvageableItemReticle;
     public TextMeshProUGUI playerSalvageScoreText;
 
-    [Header("-----Turret Stuff-----")]
+    //[Header("-----Turret Stuff-----")]
     
-    public GameObject turret;
-    [Header("-----Rat Stuff-----")]
-    public GameObject rat;
-    public int enemiesRemaining;
+    //public GameObject turret;
+    //[Header("-----Rat Stuff-----")]
+    //public GameObject rat;
+    //public int enemiesRemaining;
 
     public bool isPaused;
     float timeScaleOriginal;
@@ -132,7 +132,7 @@ public class gameManager : MonoBehaviour
     public void UpdateSalvageScore(int score)
     {
         playerSalvageScoreText.text = score.ToString();
-        amtSalvaged += score;
+        amtSalvaged = score;
     }
     public void PlayerWins()
     {

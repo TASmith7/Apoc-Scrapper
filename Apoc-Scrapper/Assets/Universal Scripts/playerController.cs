@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class playerController : MonoBehaviour, IDamage
+public class playerController : MonoBehaviour, IDamage, ISalvageable
 {
     [Header("----- Components -----")]
     [SerializeField] CharacterController controller;
 
     [Header("----- Player Stats -----")]
-    [Range(1, 10)][SerializeField] int HP;
+    [Range(1, 100)][SerializeField] int HP;
     [Range(3, 8)] [SerializeField] float playerSpeed;
     [Range(10, 50)] [SerializeField] float gravityValue;
     int playerSalvageScore;

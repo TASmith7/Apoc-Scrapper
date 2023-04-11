@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class enemyAI : MonoBehaviour, IDamage
+public class TurretAI : MonoBehaviour, IDamage
 {
     [Header("----- Components -----")]
     [SerializeField] Renderer model;
-    [SerializeField] NavMeshAgent agent;
     [SerializeField] Transform headPos;
     [SerializeField] Transform shootPos;
     //[SerializeField] Rigidbody rigidBody;
@@ -21,14 +20,14 @@ public class enemyAI : MonoBehaviour, IDamage
     
     [Range(0.1f, 5)][SerializeField] float shootRate;
     [Range(1, 100)][SerializeField] int shootDistance;
-    [SerializeField] GameObject bullet;
+    [SerializeField] GameObject TurretBullet;
     [SerializeField] int bulletSpeed;
 
     Vector3 playerDirection;
     bool playerInRange;
     float angleToPlayer;
     bool isShooting;
-    float stoppingDistanceOrig;
+    
     
 
     void Start()
@@ -36,7 +35,7 @@ public class enemyAI : MonoBehaviour, IDamage
         
 
         // caching the original stopping distance that we set
-        stoppingDistanceOrig = agent.stoppingDistance;
+        
     }
 
 
@@ -102,7 +101,7 @@ public class enemyAI : MonoBehaviour, IDamage
         
         // this creates a reference to an instantiated bullet, first parameter = what youre instantiating, second = where it's instantiating from on the enemy
         // (which we'll set in unity), third = the bullets orientation (doesn't really matter but it's necessary)
-        GameObject bulletClone = Instantiate(bullet, shootPos.position, bullet.transform.rotation);
+        GameObject bulletClone = Instantiate(TurretBullet, shootPos.position, TurretBullet.transform.rotation);
 
         // this will set the bullets velocity via the rigidbody component of the game object
         bulletClone.GetComponent<Rigidbody>().velocity = transform.forward * bulletSpeed;
@@ -138,7 +137,7 @@ public class enemyAI : MonoBehaviour, IDamage
         //agent.SetDestination(gameManager.instance.player.transform.position);
 
         // remove the stopping distance so that the enemy goes right to the spot where we shot him from, rather than stopping with the stopping distance
-        agent.stoppingDistance = 0;
+        //agent.stoppingDistance = 0;
 
         StartCoroutine(FlashColor());
 

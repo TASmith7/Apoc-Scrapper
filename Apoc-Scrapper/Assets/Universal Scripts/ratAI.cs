@@ -27,8 +27,8 @@ public class ratAI : MonoBehaviour, IDamage
     [Range(1, 10)][SerializeField] int biteDamage;
     [Range(0.1f, 5)][SerializeField] float biteRate;
     [SerializeField] float biteDistance;
-    [SerializeField] GameObject attack;
-    [SerializeField] float attackSpeed;
+    //[SerializeField] GameObject attack;
+    //[SerializeField] float attackSpeed;
 
     //[Header("----- Rat Jump Stats (WIP)-----")]
     //[SerializeField] float jumpHeight;
@@ -52,7 +52,7 @@ public class ratAI : MonoBehaviour, IDamage
     {
         
         activeRadius = radiusSleep;
-        
+        agent.stoppingDistance = biteDistance;
         
         //rb = GetComponent<Rigidbody>();
 
@@ -79,7 +79,7 @@ public class ratAI : MonoBehaviour, IDamage
         playerDirection = (gameManager.instance.player.transform.position - headPos.position);
 
         // this calculates the angle between where our player is and where we (the enemy) are looking
-        angleToPlayer = Vector3.Angle(new Vector3(playerDirection.x,playerDirection.y, playerDirection.z), transform.forward);
+        angleToPlayer = Vector3.Angle(new Vector3(playerDirection.x,0, playerDirection.z), transform.forward);
 
        
 
@@ -98,25 +98,11 @@ public class ratAI : MonoBehaviour, IDamage
                 // this gets the enemy to move in the direction of our player
                 agent.SetDestination(gameManager.instance.player.transform.position);
 
-
-
-
-                FacePlayer();
-
+                if (agent.remainingDistance <agent.stoppingDistance)
+                    FacePlayer();
 
                 if (!isShooting)
-                {
-                    // if the player is within the sight range, which we check in update, and we are not already shooting (just so we don't shoot multiple times at once), start shooting
-                    
-                    
-                        //Jump(ratCollBite);
-                        
-                        StartCoroutine(Shoot());
-
-                    
-                    
-                }
-
+                    StartCoroutine(Shoot());
 
                 return true;
             }
@@ -129,33 +115,40 @@ public class ratAI : MonoBehaviour, IDamage
     {
         isShooting = true;
 
-        // this creates a reference to an instantiated bullet, first parameter = what youre instantiating, second = where it's instantiating from on the enemy
-        // (which we'll set in unity), third = the bullets orientation (doesn't really matter but it's necessary)
-        GameObject bulletClone = Instantiate(attack, shootPos.position, attack.transform.rotation);
+        // we use this raycast to return the position of where our raycast hits
+        RaycastHit hit;
 
-        // this will set the bullets velocity via the rigidbody component of the game object
-        bulletClone.GetComponent<Rigidbody>().velocity = transform.forward * attackSpeed;
+        // If the ray going from the middle of our screen hits something, "out" the position of where it hits in our 'hit' variable,
+        // and it will shoot the specified distance via our variable
+        if (Physics.Raycast(headPos.position, playerDirection, out hit))
+        {
+            // if the object we hit contains the IDamage interface
+            IDamage damageable = hit.collider.GetComponent<IDamage>();
 
-        // our wait time which is going to be our defined shootRate
+            // if the above^ has the component IDamage (i.e. it's not null), and it is not the player
+            if (damageable != null && hit.collider.tag != "Enemy")
+            {
+                //take damage if in range
+                if (playerDirection.magnitude<biteDistance)
+                    damageable.TakeDamage(biteDamage);
+            }
+        }
+
         yield return new WaitForSeconds(biteRate);
-
         isShooting = false;
     }
 
     // any object that ENTERS the collider
     void OnTriggerEnter(Collider other)
     {
-        
-        
-            if (other.CompareTag("Player"))
-            {
-                playerInRange = true;
 
-                ratCollWake.radius = radiusActive;
-                activeRadius = ratCollWake.radius;
-            }
-        
-        
+
+        if (other.CompareTag("Player"))
+        {
+            ratCollWake.radius = radiusActive;
+            activeRadius = ratCollWake.radius;
+            playerInRange = true;
+        }
         
             
         
@@ -179,6 +172,7 @@ public class ratAI : MonoBehaviour, IDamage
     {
         if (other.CompareTag("Player"))
         {
+            
             playerInRange = false;
         }
     }
@@ -187,7 +181,7 @@ public class ratAI : MonoBehaviour, IDamage
         HP -= amount;
 
         // if we (the enemy) gets shot, we should know where the player shot us from
-        //agent.SetDestination(gameManager.instance.player.transform.position);
+        agent.SetDestination(gameManager.instance.player.transform.position);
 
         // remove the stopping distance so that the enemy goes right to the spot where we shot him from, rather than stopping with the stopping distance
         agent.stoppingDistance = 0;

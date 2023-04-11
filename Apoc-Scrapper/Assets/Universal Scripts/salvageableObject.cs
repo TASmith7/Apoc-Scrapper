@@ -16,9 +16,7 @@ public class salvageableObject : MonoBehaviour, ISalvageable
 
     }
 
-    //public void SalvageObject(GameObject objectToSalvage)
-    //{
-
-    //}
+    //public void SalvageObject(GameObject objectToSalvage) { }
+    
 
 }
