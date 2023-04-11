@@ -287,7 +287,8 @@ PrefabInstance:
       propertyPath: m_BaseOffset
       value: 2
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4587432807462117414, guid: e52ee4a33c7c70342b9214eef448878a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e52ee4a33c7c70342b9214eef448878a, type: 3}
 --- !u!1001 &146672846
 PrefabInstance:

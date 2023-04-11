@@ -106,7 +106,7 @@ public class droneAI : MonoBehaviour, IDamage
     IEnumerator shoot()
     {
         isShooting = true;
-        GameObject bulletClone = Instantiate(bullet, shootPos.position, gameManager.instance.player.transform.rotation);
+        GameObject bulletClone = Instantiate(bullet, shootPos.position, bullet.transform.rotation);
         //GameObject bulletClone2 = Instantiate(bullet, shootPos2.position, bullet.transform.rotation);
         bulletClone.GetComponent<Rigidbody>().velocity = transform.forward * bulletSpeed;
         yield return new WaitForSeconds(shootRate);
@@ -155,7 +155,7 @@ public class droneAI : MonoBehaviour, IDamage
 
     void facePlayer()
     {
-        Quaternion rot = Quaternion.LookRotation(new Vector3(playerDir.x, playerDir.y, playerDir.z));
+        Quaternion rot = Quaternion.LookRotation(new Vector3(playerDir.x, 0, playerDir.z));
         transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * playerFaceSpeed);
     }
 }
