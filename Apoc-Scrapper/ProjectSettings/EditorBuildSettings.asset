@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Trevor Sandbox/Skyscraper.unity
+    guid: 170ef9a328b94fd4795e492d30e43bc8
   m_configObjects: {}
